@@ -1,9 +1,11 @@
+# import os
+# os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.5/bin")
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential, Model
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
-from keras.layers.normalization import BatchNormalization
+from tensorflow.keras.layers import BatchNormalization
 from keras.layers.advanced_activations import ELU
-from keras.optimizers import Adam, SGD, Adamax, Nadam
+from tensorflow.keras.optimizers import Adam, SGD, Adamax, Nadam
 from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
 import keras.backend as K
 from keras.preprocessing import image
