@@ -22,16 +22,16 @@ from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
 
-def fix_gpu():
-    config = ConfigProto()
-    config.gpu_options.allow_growth = True
-    session = InteractiveSession(config=config)
-
-
-fix_gpu()
+# def fix_gpu():
+#     config = ConfigProto()
+#     config.gpu_options.allow_growth = True
+#     session = InteractiveSession(config=config)
+# fix_gpu()
 
 import json
 import os
+os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import numpy as np
 import pandas as pd
 from Generator import DriveDataGenerator
