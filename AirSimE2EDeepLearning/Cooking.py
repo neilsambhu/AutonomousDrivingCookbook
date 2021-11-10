@@ -127,7 +127,7 @@ def generatorForH5py(data_mappings, chunk_size=32):
             yield (image_names_chunk, labels_chunk.astype(float), previous_state_chunk.astype(float))
             if chunk_id + chunk_size > len(data_mappings):
                 raise StopIteration
-    raise StopIteration
+    # raise StopIteration
     
 def saveH5pyData(data_mappings, target_file_path):
     """
