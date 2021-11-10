@@ -9,7 +9,8 @@ import Cooking
 import random
 
 # << Point this to the directory containing the raw data >>
-RAW_DATA_DIR = '../data/EndToEndLearningRawData/data_raw/'
+# RAW_DATA_DIR = '../data/EndToEndLearningRawData/data_raw/'
+RAW_DATA_DIR = '/home/DATASETS/nsambhu/AutonomousDrivingCookbook/EndToEndLearningRawData/data_raw/'
 
 # << Point this to the desired output directory for the cooked (.h5) data >>
 COOKED_DATA_DIR = '../data_cooked/'
