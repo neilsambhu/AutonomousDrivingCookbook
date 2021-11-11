@@ -1,17 +1,25 @@
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential, Model
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
-from tensorflow.keras.layers import BatchNormalization
-# from keras.layers.advanced_activations import ELU
-from tensorflow.keras.layers import ELU
-from tensorflow.keras.optimizers import Adam, SGD, Adamax, Nadam
-from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
-import tensorflow.keras.backend as K
-from tensorflow.keras.preprocessing import image
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential, Model
+from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
+from keras.layers import BatchNormalization
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator
+# from tensorflow.keras.models import Sequential, Model
+# from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
+# from tensorflow.keras.layers import BatchNormalization
+from keras.layers.advanced_activations import ELU
+# from tensorflow.keras.layers import ELU
+from keras.optimizers import Adam, SGD, Adamax, Nadam
+from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
+import keras.backend as K
+from keras.preprocessing import image
+# from tensorflow.keras.optimizers import Adam, SGD, Adamax, Nadam
+# from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
+# import tensorflow.keras.backend as K
+# from tensorflow.keras.preprocessing import image
 
 # from keras_tqdm import TQDMNotebookCallback
 # from tqdm.keras import TqdmCallback
-import tensorflow as tf
+# import tensorflow as tf
 # import tensorflow_addons as tfa
 # tqdm_callback = tfa.callbacks.TQDMProgressBar()
 
@@ -139,7 +147,6 @@ early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10, verbose
 # callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, tqdm_callback]
 callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback]
 
-print(train_generator)
 history = model.fit_generator(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
 # history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
