@@ -1,6 +1,8 @@
-from tensorflow.keras.preprocessing import image
+from keras.preprocessing import image
+# from tensorflow.keras.preprocessing import image
 import numpy as np
-import tensorflow.keras.backend as K
+import keras.backend as K
+# import tensorflow.keras.backend as K
 import os
 import cv2
 
