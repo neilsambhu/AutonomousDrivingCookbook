@@ -98,7 +98,7 @@ def draw_image_with_label(img, label, prediction=None):
     del image_draw
     plt.imshow(draw_image)
     plt.show()
-print(train_generator)
+# print(train_generator)
 [sample_batch_train_data, sample_batch_test_data] = next(train_generator)
 # for i in range(0, 3, 1):
 #     draw_image_with_label(sample_batch_train_data[0][i], sample_batch_test_data[i])
