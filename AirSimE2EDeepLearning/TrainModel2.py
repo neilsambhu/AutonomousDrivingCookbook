@@ -39,5 +39,13 @@ test_dataset = h5py.File(os.path.join(COOKED_DATA_DIR, 'test.h5'), 'r')
 num_train_examples = train_dataset['image'].shape[0]
 num_eval_examples = eval_dataset['image'].shape[0]
 num_test_examples = test_dataset['image'].shape[0]
-print(num_train_examples)
+print(train_dataset['image'],train_dataset['previous_state'],train_dataset['label'])
 batch_size=32
+
+data_generator = ImageDataGenerator(
+    rescale=1./255., horizontal_flip=True, brightness_range=[1-.4,1+.4]
+)
+# train_generator = data_generator.flow\
+#     (train_dataset['image'], train_dataset['previous_state'], train_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])
+# eval_generator = data_generator.flow\
+#     (eval_dataset['image'], eval_dataset['previous_state'], eval_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])    
