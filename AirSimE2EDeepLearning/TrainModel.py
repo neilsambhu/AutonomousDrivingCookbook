@@ -1,45 +1,19 @@
-from keras.preprocessing.image import ImageDataGenerator
-from keras.models import Sequential, Model
-from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
-from keras.layers import BatchNormalization
-# from tensorflow.keras.preprocessing.image import ImageDataGenerator
-# from tensorflow.keras.models import Sequential, Model
-# from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
-# from tensorflow.keras.layers import BatchNormalization
-from keras.layers.advanced_activations import ELU
-# from tensorflow.keras.layers import ELU
-from keras.optimizers import Adam, SGD, Adamax, Nadam
-from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
-import keras.backend as K
-from keras.preprocessing import image
-# from tensorflow.keras.optimizers import Adam, SGD, Adamax, Nadam
-# from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
-# import tensorflow.keras.backend as K
-# from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Lambda, Input, concatenate
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import ELU
+from tensorflow.keras.optimizers import Adam, SGD, Adamax, Nadam
+from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint, CSVLogger, EarlyStopping
+import tensorflow.keras.backend as K
+from tensorflow.keras.preprocessing import image
 
-# from keras_tqdm import TQDMNotebookCallback
-# from tqdm.keras import TqdmCallback
-# import tensorflow as tf
-# import tensorflow_addons as tfa
-# tqdm_callback = tfa.callbacks.TQDMProgressBar()
-
-# devices = tf.config.experimental.list_physical_devices('GPU')
-# tf.config.experimental.set_memory_growth(devices[0], True)
-
-# from tensorflow.compat.v1 import ConfigProto
-# from tensorflow.compat.v1 import InteractiveSession
-
-
-# def fix_gpu():
-#     config = ConfigProto()
-#     config.gpu_options.allow_growth = True
-#     session = InteractiveSession(config=config)
-# fix_gpu()
+from tqdm.keras import TqdmCallback
 
 import json
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="7"
 import numpy as np
 import pandas as pd
 from Generator import DriveDataGenerator
@@ -55,8 +29,6 @@ COOKED_DATA_DIR = '../data_cooked/'
 # << The directory in which the model output will be placed >>
 MODEL_OUTPUT_DIR = '../model'
 
-# from os.path import exists
-# print(os.path.join(COOKED_DATA_DIR, 'train.h5'))
 train_dataset = h5py.File(os.path.join(COOKED_DATA_DIR, 'train.h5'), 'r')
 eval_dataset = h5py.File(os.path.join(COOKED_DATA_DIR, 'eval.h5'), 'r')
 test_dataset = h5py.File(os.path.join(COOKED_DATA_DIR, 'test.h5'), 'r')
@@ -64,11 +36,12 @@ test_dataset = h5py.File(os.path.join(COOKED_DATA_DIR, 'test.h5'), 'r')
 num_train_examples = train_dataset['image'].shape[0]
 num_eval_examples = eval_dataset['image'].shape[0]
 num_test_examples = test_dataset['image'].shape[0]
-
+# print(train_dataset['image'],train_dataset['previous_state'][0],train_dataset['label'][0])
 batch_size=32
-# batch_size=1
 
-data_generator = DriveDataGenerator(rescale=1./255., horizontal_flip=True, brighten_range=0.4)
+data_generator = DriveDataGenerator(
+    rescale=1./255., horizontal_flip=True, brightness_range=[1-0.4,1+0.4]
+)
 train_generator = data_generator.flow\
     (train_dataset['image'], train_dataset['previous_state'], train_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])
 eval_generator = data_generator.flow\
@@ -143,11 +116,14 @@ checkpoint_callback = ModelCheckpoint(checkpoint_filepath, save_best_only=True, 
 csv_callback = CSVLogger(os.path.join(MODEL_OUTPUT_DIR, 'training_log.csv'))
 early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
 # callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TQDMNotebookCallback()]
-# callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TqdmCallback()]
-# callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, tqdm_callback]
-callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback]
+callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TqdmCallback()]
 
-history = model.fit_generator(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
-                   validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
-# history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
+# history = model.fit_generator(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
 #                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
+history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
+                   validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
+
+[sample_batch_train_data, sample_batch_test_data] = next(train_generator)
+predictions = model.predict([sample_batch_train_data[0], sample_batch_train_data[1]])
+for i in range(0, 3, 1):
+    draw_image_with_label(sample_batch_train_data[0][i], sample_batch_test_data[i], predictions[i])
