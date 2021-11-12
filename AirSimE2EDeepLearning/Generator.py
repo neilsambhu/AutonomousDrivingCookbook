@@ -147,7 +147,8 @@ class DriveDataGenerator(image.ImageDataGenerator):
         if self.horizontal_flip:
             if np.random.random() < 0.5:
                 # x = image.flip_axis(x, img_col_axis)
-                x = image.image.flip_axis(x, img_col_axis)
+                # x = image.image.flip_axis(x, img_col_axis)
+                x = np.fliplr(np.asarray(x))
                 is_image_horizontally_flipped = True
 
         if self.vertical_flip:
