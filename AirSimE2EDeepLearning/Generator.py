@@ -30,6 +30,7 @@ class DriveDataGenerator(image.ImageDataGenerator):
                 #  brighten_range=0
                  brightness_range=[1,1]
                  ):
+        print("Generator.py",brightness_range)
         super(DriveDataGenerator, self).__init__(featurewise_center,
                  samplewise_center,
                  featurewise_std_normalization,
