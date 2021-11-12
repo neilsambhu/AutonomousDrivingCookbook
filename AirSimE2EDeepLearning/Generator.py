@@ -30,7 +30,7 @@ class DriveDataGenerator(image.ImageDataGenerator):
                 #  brighten_range=0
                  brightness_range=[1,1]
                  ):
-        print("Generator.py",brightness_range)
+        print("Generator.py 1",brightness_range)
         super(DriveDataGenerator, self).__init__(featurewise_center,
                  samplewise_center,
                  featurewise_std_normalization,
@@ -50,8 +50,10 @@ class DriveDataGenerator(image.ImageDataGenerator):
                  rescale,
                  preprocessing_function,
                  data_format)
+        print("Generator.py 2",brightness_range)
         # self.brighten_range = brighten_range
         self.brightness_range = brightness_range
+        print("Generator.py 3",brightness_range)
 
     def flow(self, x_images, x_prev_states = None, y=None, batch_size=32, shuffle=True, seed=None,
              save_to_dir=None, save_prefix='', save_format='png', zero_drop_percentage=0.5, roi=None):
