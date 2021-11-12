@@ -40,6 +40,7 @@ class DriveDataGenerator(image.ImageDataGenerator):
                  rotation_range,
                  width_shift_range,
                  height_shift_range,
+                 brightness_range,
                  shear_range,
                  zoom_range,
                  channel_shift_range,
