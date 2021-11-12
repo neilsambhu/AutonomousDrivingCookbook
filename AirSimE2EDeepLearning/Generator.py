@@ -27,7 +27,8 @@ class DriveDataGenerator(image.ImageDataGenerator):
                  rescale=None,
                  preprocessing_function=None,
                  data_format=None,
-                 brighten_range=0
+                #  brighten_range=0
+                 brightness_range=[1,1]
                  ):
         super(DriveDataGenerator, self).__init__(featurewise_center,
                  samplewise_center,
@@ -48,7 +49,8 @@ class DriveDataGenerator(image.ImageDataGenerator):
                  rescale,
                  preprocessing_function,
                  data_format)
-        self.brighten_range = brighten_range
+        # self.brighten_range = brighten_range
+        self.brightness_range = brightness_range
 
     def flow(self, x_images, x_prev_states = None, y=None, batch_size=32, shuffle=True, seed=None,
              save_to_dir=None, save_prefix='', save_format='png', zero_drop_percentage=0.5, roi=None):
@@ -150,8 +152,10 @@ class DriveDataGenerator(image.ImageDataGenerator):
             if np.random.random() < 0.5:
                 x = image.flip_axis(x, img_row_axis)
                 
-        if self.brighten_range != 0:
-            random_bright = np.random.uniform(low = 1.0-self.brighten_range, high=1.0+self.brighten_range)
+        # if self.brighten_range != 0:
+        if self.brightness_range != 0:
+            # random_bright = np.random.uniform(low = 1.0-self.brighten_range, high=1.0+self.brighten_range)
+            random_bright = np.random.uniform(low = self.brightness_range[0], high=self.brightness_range[1])
             
             #TODO: Write this as an apply to push operations into C for performance
             img = cv2.cvtColor(x, cv2.COLOR_RGB2HSV)
