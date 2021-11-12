@@ -13,7 +13,7 @@ from tqdm.keras import TqdmCallback
 import json
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="4"
 import numpy as np
 import pandas as pd
 from Generator import DriveDataGenerator
