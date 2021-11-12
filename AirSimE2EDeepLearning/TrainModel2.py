@@ -44,7 +44,7 @@ num_test_examples = test_dataset['image'].shape[0]
 batch_size=32
 
 data_generator = DriveDataGenerator(
-    rescale=1./255., horizontal_flip=True, brighten_range=0.4
+    rescale=1./255., horizontal_flip=True#, brighten_range=0.4
 )
 # train_generator = data_generator.flow\
 #     (train_dataset['image'], train_dataset['previous_state'], train_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])
