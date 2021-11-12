@@ -20,6 +20,7 @@ os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import numpy as np
 import pandas as pd
+from Generator import DriveDataGenerator
 from Cooking import checkAndCreateDir
 import h5py
 from PIL import Image, ImageDraw
