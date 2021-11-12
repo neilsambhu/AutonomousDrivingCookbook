@@ -21,6 +21,13 @@ print('Using model {0} for testing.'.format(MODEL_PATH))
 
 model = load_model(MODEL_PATH)
 
+import subprocess, sys
+
+p = subprocess.Popen(["powershell.exe", 
+              "../data/AD_Cookbook_AirSim/AD_Cookbook_Start_AirSim.ps1 landscape"], 
+              stdout=sys.stdout)
+p.communicate()
+
 client = CarClient()
 client.confirmConnection()
 client.enableApiControl(True)
