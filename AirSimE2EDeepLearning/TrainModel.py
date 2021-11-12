@@ -46,6 +46,8 @@ train_generator = data_generator.flow\
     (train_dataset['image'], train_dataset['previous_state'], train_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])
 eval_generator = data_generator.flow\
     (eval_dataset['image'], eval_dataset['previous_state'], eval_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])    
+test_generator = data_generator.flow\
+    (test_dataset['image'], test_dataset['previous_state'], test_dataset['label'], batch_size=batch_size, zero_drop_percentage=0.95, roi=[76,135,0,255])    
 
 def draw_image_with_label(img, label, prediction=None):
     theta = label * 0.69 #Steering range for the car is +- 40 degrees -> 0.69 radians
@@ -71,7 +73,7 @@ def draw_image_with_label(img, label, prediction=None):
     del image_draw
     plt.imshow(draw_image)
     plt.show()
-# print(train_generator)
+
 [sample_batch_train_data, sample_batch_test_data] = next(train_generator)
 # for i in range(0, 3, 1):
 #     draw_image_with_label(sample_batch_train_data[0][i], sample_batch_test_data[i])
@@ -118,12 +120,14 @@ early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10, verbose
 # callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TQDMNotebookCallback()]
 callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TqdmCallback()]
 
-# history = model.fit_generator(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
-#                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
-history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=500, callbacks=callbacks,\
+history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
 
 [sample_batch_train_data, sample_batch_test_data] = next(train_generator)
 predictions = model.predict([sample_batch_train_data[0], sample_batch_train_data[1]])
 for i in range(0, 3, 1):
     draw_image_with_label(sample_batch_train_data[0][i], sample_batch_test_data[i], predictions[i])
+
+print("Evaluate on test data")
+results = model.evaluate(test_generator, batch_size=128, return_dict=True)
+print(results)
