@@ -13,7 +13,7 @@ from AirSimClient import *
 MODEL_PATH = None
 
 if (MODEL_PATH == None):
-    models = glob.glob('model/models/*.h5') 
+    models = glob.glob('../model/models/*.h5') 
     best_model = max(models, key=os.path.getctime)
     MODEL_PATH = best_model
     
