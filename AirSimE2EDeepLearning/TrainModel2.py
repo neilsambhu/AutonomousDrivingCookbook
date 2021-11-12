@@ -9,10 +9,10 @@ import tensorflow.keras.backend as K
 from tensorflow.keras.preprocessing import image
 
 # from keras_tqdm import TQDMNotebookCallback
-# from tqdm.keras import TqdmCallback
+from tqdm.keras import TqdmCallback
 # import tensorflow as tf
-# import tensorflow_addons as tfa
-# tqdm_callback = tfa.callbacks.TQDMProgressBar()
+import tensorflow_addons as tfa
+tqdm_callback = tfa.callbacks.TQDMProgressBar()
 
 import json
 import os
@@ -120,9 +120,9 @@ checkpoint_callback = ModelCheckpoint(checkpoint_filepath, save_best_only=True, 
 csv_callback = CSVLogger(os.path.join(MODEL_OUTPUT_DIR, 'training_log.csv'))
 early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
 # callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TQDMNotebookCallback()]
-# callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TqdmCallback()]
+callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, TqdmCallback()]
 # callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback, tqdm_callback]
-callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback]
+# callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_callback]
 
 history = model.fit_generator(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
