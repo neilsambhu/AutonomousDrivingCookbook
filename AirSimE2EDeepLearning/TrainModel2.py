@@ -39,7 +39,7 @@ test_dataset = h5py.File(os.path.join(COOKED_DATA_DIR, 'test.h5'), 'r')
 num_train_examples = train_dataset['image'].shape[0]
 num_eval_examples = eval_dataset['image'].shape[0]
 num_test_examples = test_dataset['image'].shape[0]
-print(train_dataset['image'],train_dataset['previous_state'][0],train_dataset['label'])
+print(train_dataset['image'],train_dataset['previous_state'][0],train_dataset['label'][0])
 batch_size=32
 
 data_generator = ImageDataGenerator(
