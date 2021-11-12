@@ -120,7 +120,7 @@ callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_c
 
 # history = model.fit_generator(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
 #                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
-history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
+history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=500, callbacks=callbacks,\
                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
 
 [sample_batch_train_data, sample_batch_test_data] = next(train_generator)
