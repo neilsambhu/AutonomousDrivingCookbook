@@ -123,10 +123,10 @@ callbacks=[plateau_callback, csv_callback, checkpoint_callback, early_stopping_c
 history = model.fit(train_generator, steps_per_epoch=num_train_examples//batch_size, epochs=1, callbacks=callbacks,\
                    validation_data=eval_generator, validation_steps=num_eval_examples//batch_size, verbose=2)
 
-[sample_batch_train_data, sample_batch_test_data] = next(train_generator)
-predictions = model.predict([sample_batch_train_data[0], sample_batch_train_data[1]])
-for i in range(0, 3, 1):
-    draw_image_with_label(sample_batch_train_data[0][i], sample_batch_test_data[i], predictions[i])
+# [sample_batch_train_data, sample_batch_test_data] = next(train_generator)
+# predictions = model.predict([sample_batch_train_data[0], sample_batch_train_data[1]])
+# for i in range(0, 3, 1):
+#     draw_image_with_label(sample_batch_train_data[0][i], sample_batch_test_data[i], predictions[i])
 
 print("Evaluate on test data")
 results = model.evaluate(test_generator, batch_size=128, return_dict=True)
