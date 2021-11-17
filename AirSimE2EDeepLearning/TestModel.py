@@ -14,6 +14,7 @@ MODEL_PATH = None
 
 if (MODEL_PATH == None):
     models = glob.glob('../model/models/*.h5') 
+    # models = glob.glob('../model/models/model_model.01-0.0187696.h5') 
     best_model = max(models, key=os.path.getctime)
     MODEL_PATH = best_model
     
@@ -45,7 +46,9 @@ def get_image():
     image_response = client.simGetImages([ImageRequest(0, AirSimImageType.Scene, False, False)])[0]
     image1d = np.fromstring(image_response.image_data_uint8, dtype=np.uint8)
     image_rgba = image1d.reshape(image_response.height, image_response.width, 4)
-    
+    import matplotlib.pyplot as plt
+    plt.imshow(image_rgba[76:135,0:255,0:3])
+    plt.show()
     return image_rgba[76:135,0:255,0:3].astype(float)
 
 while (True):
@@ -57,6 +60,7 @@ while (True):
         car_controls.throttle = 0.0
     
     image_buf[0] = get_image()
+
     state_buf[0] = np.array([car_controls.steering, car_controls.throttle, car_controls.brake, car_state.speed])
     model_output = model.predict([image_buf, state_buf])
     car_controls.steering = round(0.5 * float(model_output[0][0]), 2)
